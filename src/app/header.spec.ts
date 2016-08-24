@@ -11,7 +11,7 @@ describe('header component', () => {
       .then((fixture: ComponentFixture<any>) => {
         fixture.detectChanges();
         const header = fixture.nativeElement;
-        expect(header.querySelector('p').textContent.trim()).toBe('RetroApp');
+        expect(header.querySelector('p').textContent.trim()).toBe('RetroTool');
       });
   })));
 });
