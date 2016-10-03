@@ -29,6 +29,12 @@ module.exports = function (config) {
       type: 'html',
       dir: 'coverage/'
     },
+    customLaunchers: {
+        ChromeTravis: {
+            base: 'Chrome',
+            flags: ['--no-sandbox']
+        }
+    },
     webpack: require('./webpack-test.conf'),
     webpackMiddleware: {
       noInfo: true
@@ -41,6 +47,10 @@ module.exports = function (config) {
       require('karma-webpack')
     ]
   };
+
+  if (process.env.TRAVIS) {
+    configuration.browsers = ['ChromeTravis'];
+  }
 
   config.set(configuration);
 };
