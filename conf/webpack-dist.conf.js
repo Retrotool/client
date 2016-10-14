@@ -4,6 +4,7 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
@@ -51,16 +52,26 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: {unused: true, dead_code: true} // eslint-disable-line camelcase
     }),
-    new ExtractTextPlugin('index-[contenthash].css')
+    new ExtractTextPlugin('index-[contenthash].css'),
+    new LoaderOptionsPlugin({
+      options: {
+        postcss: () => [autoprefixer],
+        ts: {
+          configFileName: 'tsconfig.json'
+        },
+        tslint: {
+          configuration: require('../tslint.json')
+        },
+        resolve: {}
+      }
+    })
   ],
-  postcss: () => [autoprefixer],
   output: {
     path: path.join(process.cwd(), conf.paths.dist),
     filename: '[name]-[hash].js'
   },
   resolve: {
     extensions: [
-      '',
       '.webpack.js',
       '.web.js',
       '.js',
@@ -70,11 +81,5 @@ module.exports = {
   entry: {
     app: `./${conf.path.src('index')}`,
     vendor: Object.keys(pkg.dependencies).filter(dep => ['zone.js', 'reflect-metadata'].indexOf(dep) === -1)
-  },
-  ts: {
-    configFileName: 'tsconfig.json'
-  },
-  tslint: {
-    configuration: require('../tslint.json')
   }
 };

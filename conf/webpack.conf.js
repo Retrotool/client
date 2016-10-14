@@ -3,19 +3,18 @@ const conf = require('./gulp.conf');
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.ts$/,
+        enforce: "pre",
         exclude: /node_modules/,
         loader: 'tslint'
-      }
-    ],
-
-    loaders: [
+      },
       {
         test: /.json$/,
         loaders: [
@@ -52,10 +51,21 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html'),
       inject: true
+    }),
+    new LoaderOptionsPlugin({
+      debug: true,
+      options: {
+        postcss: () => [autoprefixer],
+        ts: {
+          configFileName: 'tsconfig.json'
+        },
+        tslint: {
+          configuration: require('../tslint.json')
+        },
+        resolve: {}
+      }
     })
   ],
-  postcss: () => [autoprefixer],
-  debug: true,
   devtool: 'cheap-module-eval-source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),
@@ -63,7 +73,6 @@ module.exports = {
   },
   resolve: {
     extensions: [
-      '',
       '.webpack.js',
       '.web.js',
       '.js',
@@ -71,10 +80,4 @@ module.exports = {
     ]
   },
   entry: `./${conf.path.src('index')}`,
-  ts: {
-    configFileName: 'tsconfig.json'
-  },
-  tslint: {
-    configuration: require('../tslint.json')
-  }
 };

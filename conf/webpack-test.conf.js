@@ -1,3 +1,5 @@
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+
 module.exports = {
   module: {
     preLoaders: [
@@ -30,22 +32,27 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new LoaderOptionsPlugin({
+      options: {
+        postcss: () => [autoprefixer],
+        ts: {
+          configFileName: 'tsconfig.json'
+        },
+        tslint: {
+          configuration: require('../tslint.json')
+        },
+        resolve: {}
+      }
+  ],
   debug: true,
   devtool: 'cheap-module-eval-source-map',
   resolve: {
     extensions: [
-      '',
       '.webpack.js',
       '.web.js',
       '.js',
       '.ts'
     ]
-  },
-  ts: {
-    configFileName: 'tsconfig.json'
-  },
-  tslint: {
-    configuration: require('../tslint.json')
   }
 };
