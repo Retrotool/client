@@ -1,16 +1,15 @@
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 
+const autoprefixer = require('autoprefixer');
+
 module.exports = {
   module: {
-    preLoaders: [
+    rules: [
       {
         test: /\.ts$/,
         exclude: /node_modules/,
         loader: 'tslint'
-      }
-    ],
-
-    loaders: [
+      },
       {
         test: /.json$/,
         loaders: [
@@ -34,6 +33,7 @@ module.exports = {
   },
   plugins: [
     new LoaderOptionsPlugin({
+      debug: true,
       options: {
         postcss: () => [autoprefixer],
         ts: {
@@ -44,8 +44,8 @@ module.exports = {
         },
         resolve: {}
       }
+    })
   ],
-  debug: true,
   devtool: 'cheap-module-eval-source-map',
   resolve: {
     extensions: [

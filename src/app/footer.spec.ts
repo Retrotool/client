@@ -1,18 +1,25 @@
 /// <reference path="../../typings/index.d.ts"/>
 
-import 'reflect-metadata';
-import 'zone.js/dist/zone';
-import 'zone.js/dist/async-test';
-import { FooterComponent } from './footer';
-import { inject, async, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { FooterComponent } from './footer.component';
 
-describe('footer component', () => {
-  it('should show version', async(inject([ TestComponentBuilder ], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(FooterComponent)
-      .then((fixture: ComponentFixture<any>) => {
-        fixture.detectChanges();
-        const footer = fixture.nativeElement;
-        expect(footer.querySelector('span').textContent.trim()).toBe('RetroTool v0.0.0');
-      });
-  })));
+import { async, TestBed } from '@angular/core/testing';
+
+describe('Footer component', () => {
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ FooterComponent ],
+    })
+    .compileComponents();
+  }));
+
+  it('should show version', () => {
+    const fixture = TestBed.createComponent(FooterComponent);
+    fixture.detectChanges();
+
+    const footer = fixture.nativeElement;
+
+    expect(footer.querySelector('span').textContent.trim()).toBe('RetroTool v0.0.0');
+  });
+
 });

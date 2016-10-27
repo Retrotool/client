@@ -1,17 +1,23 @@
 /// <reference path="../../typings/index.d.ts"/>
 
-import 'zone.js/dist/zone';
-import 'zone.js/dist/async-test';
-import { HeaderComponent } from './header';
-import { inject, async, TestComponentBuilder, ComponentFixture } from '@angular/core/testing';
+import { HeaderComponent } from './header.component';
 
-describe('header component', () => {
-  it('renders "RetroApp" title', async(inject([ TestComponentBuilder ], (tcb: TestComponentBuilder) => {
-    tcb.createAsync(HeaderComponent)
-      .then((fixture: ComponentFixture<any>) => {
-        fixture.detectChanges();
-        const header = fixture.nativeElement;
-        expect(header.querySelector('p').textContent.trim()).toBe('RetroTool');
-      });
-  })));
+import { async, TestBed } from '@angular/core/testing';
+
+describe('Header component', () => {
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ HeaderComponent ]
+    })
+    .compileComponents();
+  }));
+
+  it('renders "RetroApp" title', () => {
+    const fixture = TestBed.createComponent(HeaderComponent);
+    fixture.detectChanges();
+
+    const header = fixture.nativeElement;
+
+    expect(header.querySelector('p').textContent.trim()).toBe('RetroTool');
+  });
 });
