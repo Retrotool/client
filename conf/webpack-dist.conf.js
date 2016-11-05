@@ -9,6 +9,11 @@ const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
+  target: 'node',
+  externals: {
+    'http-server': true,
+    'gulp-util': true
+  },
   module: {
     loaders: [
       {

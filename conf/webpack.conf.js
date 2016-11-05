@@ -79,5 +79,5 @@ module.exports = {
       '.ts'
     ]
   },
-  entry: `./${conf.path.src('index')}`,
+  entry: `./${conf.path.src('index')}`
 };
