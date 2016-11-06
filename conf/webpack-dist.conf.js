@@ -4,7 +4,8 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const pkg = require('../package.json');
 const autoprefixer = require('autoprefixer');
 
@@ -12,7 +13,8 @@ module.exports = {
   target: 'node',
   externals: {
     'http-server': true,
-    'gulp-util': true
+    'gulp-util': true,
+    'compression-webpack-plugin': true
   },
   module: {
     loaders: [
@@ -69,6 +71,13 @@ module.exports = {
         },
         resolve: {}
       }
+    }),
+    new CompressionPlugin({
+      asset: "[path].gz[query]",
+      algorithm: "gzip",
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
   ],
   output: {
